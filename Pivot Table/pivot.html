@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    Pivot Table Generator
+<head>
+<body>
+<form method="post" action="pivot.py">
+    Row of the pivot table: 
+    <select name="Row">
+        <option value="name">Name</option>
+        <option value="ID">ID</option>
+        <option value="ALIGN">Align</option>
+        <option value="EYE">Eye</option>
+        <option value="HAIR">Hair</option>
+        <option value="SEX">Sex</option>
+        <option value="GSM">GSM</option>
+        <option value="ALIVE">Alive</option>
+        <option value="YEAR">Year</option>
+        <option value="PUBLISHER">Publisher</option>
+        <option value="APPEARANCES">Appearance</option>
+        <option value="FIRST APPEARANCES">First Appearance</option>
+    </select><br />
+    Column of the pivot table: 
+    <select name="Column">
+        <option value="name">Name</option>
+        <option value="ID">ID</option>
+        <option value="ALIGN">Align</option>
+        <option value="EYE">Eye</option>
+        <option value="HAIR">Hair</option>
+        <option value="SEX">Sex</option>
+        <option value="GSM">GSM</option>
+        <option value="ALIVE">Alive</option>
+        <option value="YEAR">Year</option>
+        <option value="PUBLISHER">Publisher</option>
+        <option value="APPEARANCES">Appearance</option>
+        <option value="FIRST APPEARANCES">First Appearance</option>
+    </select><br />
+    Values:
+    <select name="Values">
+        <option value="Appearances">Appearances</option>
+        <option value="Count">Count</option>
+    </select><br />
+    Filter:
+    <select name="Filter">
+        <option value="name">Name</option>
+        <option value="ID">ID</option>
+        <option value="ALIGN">Align</option>
+        <option value="EYE">Eye</option>
+        <option value="HAIR">Hair</option>
+        <option value="SEX">Sex</option>
+        <option value="GSM">GSM</option>
+        <option value="ALIVE">Alive</option>
+        <option value="YEAR">Year</option>
+        <option value="PUBLISHER">Publisher</option>
+        <option value="APPEARANCES">Appearance</option>
+        <option value="FIRST APPEARANCES">First Appearance</option>
+    </select><input type="text" name="filter_value"><br />
+    <input type="submit" value="Generate Pivot">
+</form>
+</body>
+</html>        
