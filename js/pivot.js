@@ -19,8 +19,29 @@ function submit() {
     return false;
 }
 
-$(document).ready(
-    function Init() {
-      $('#generate').click(submit);
-    }
-);
+$(document).ready(function() {
+    if ($('#filter option:selected').val() == "all") {
+        $("#filterValue").css({
+            'opacity': '0.3'
+        });
+    } else {
+        $("#filterValue").css({
+            'opacity': '1.0'
+        });
+    };
+    $('#generate').click(submit);
+    $("#filter").change(function() {
+        console.log('blah')
+        if($('#filter option:selected').val() == "all") {
+            $("#filterValue").prop("disabled", true)
+            $("#filterValue").css({
+                'opacity': '0.3'
+            });
+        } else {
+            $("#filterValue").prop("disabled", false)
+            $("#filterValue").css({
+                'opacity': '1.0'
+            });
+        }
+    });
+});

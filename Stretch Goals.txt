@@ -1,0 +1,7 @@
+PIVOT TABLE
+
+Binning appearances for the Pivot Table
+
+Add a dropdown for filter values, so user doesn't have to type the filter value in
+
+Support multiple filter values.

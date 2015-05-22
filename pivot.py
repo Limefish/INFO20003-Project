@@ -4,7 +4,13 @@ import cgi, cgitb
 
 import csv
 
+import sys
+
 cgitb.enable()
+
+print 'Content-Type: text/html\n'
+print
+
 
 # Function to obtain a list of uniques
 def uniqueonly(x):
@@ -16,7 +22,11 @@ def uniqueonly(x):
             item = 'N/A'
         uniques.append(item)
     uniques = sorted(uniques)
-    uniques = uniques + [uniques.pop(uniques.index('N/A'))]
+   
+    try:
+        uniques = uniques + [uniques.pop(uniques.index('N/A'))]
+    except ValueError:
+        uniques = uniques
     return uniques
 
 
@@ -33,6 +43,8 @@ if 'filterValue' not in pivotValues:
 
 rowAttribute = pivotValues['row']
 colAttribute = pivotValues['column']
+filter = pivotValues['filter']
+filterValue = pivotValues['filterValue']
 
 file = open('./data/combined.csv',"rU")
 reader = csv.DictReader(file)
@@ -55,10 +67,28 @@ for character in characters:
     for header, count in character.iteritems():
         if not count:
             character[header] = "N/A"
-        
+
 #Determine row and column to output
+test = []
 outputRow = uniqueonly(datalist[rowAttribute])
 outputCol = uniqueonly(datalist[colAttribute])
+
+#Applies filter
+if filter == colAttribute:
+    if filterValue not in outputCol:
+        if filterValue == 'None':
+            print '<h2>Need to input filter value.</h2>'
+            sys.exit()
+    deleteList = []
+    for header in outputCol:
+        if header != filterValue:
+            deleteList.append(header)
+    for item in deleteList:
+        outputCol.remove(item)
+if filterValue not in outputCol and filterValue != 'None' and filter != 'all':
+    print '<h2>Filtered column does not exist.</h2>'
+    sys.exit()
+
 
 #Creates the aggregate count value in the form of a list
 total = []
@@ -81,8 +111,6 @@ def color(x):
     return color
     
 #Python Output
-print 'Content-Type: text/html\n'
-print '<p>%s</p>' % color(total[4])
 print '<table><tr><td></td>'
 
 for x in outputCol:
