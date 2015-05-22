@@ -1,51 +1,22 @@
-import cgi
-import csv
+#!/usr/bin/python
 
-# Function to obtain a list of uniques
-def uniqueonly(x):
-    uniques = []
-    setlist = set(x)
-    for item in setlist:
-        uniques.append(item) 
-    return uniques
+import cgi, cgitb
 
-data = cgi.FieldStorage()
-test= data.getfirst('row',)
+cgitb.enable()
 
-file = open('testdata.csv',"rU")
-reader = csv.DictReader(file)
+#the cgi library gets vars from html
+form = cgi.FieldStorage()
 
-datalist = {title.strip():[data.strip()]
-            for title, data in reader.next().items()}
+pivotValues = {}
 
-for row in reader:
-    for title, data in row.items():
-        title = title.strip()
-        datalist[title].append(data.strip())
+for header in form.keys():
+    pivotValues[header] = form.getvalue(header)
 
-#print test
-
-#x = uniqueonly(datalist['test'])
-
-
+if 'filterValue' not in pivotValues:
+    pivotValues['filterValue'] = 'None'
     
-    
-    
-    
-    
-    
+print "Content-Type: text/html"
+print
 
-
-
-print '''Content-Type: text/html\n\n 
-<!DOCTYPE html>
-<html>
-<head>
-    <style>%s</style>
-</head>    
-<body>
-<table>
-    <tbody>%s</tbody>
-</table>
-</body>
-</html>''' % (test, test)  
+#Python Output
+print '''<p>%s, %s, %s, %s, %s</p>''' % (pivotValues['row'], pivotValues['column'], pivotValues['value'], pivotValues['filter'], pivotValues['filterValue'])  
