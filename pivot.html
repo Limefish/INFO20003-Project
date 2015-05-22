@@ -53,9 +53,8 @@
                                 <option value="sex">Gender</option>
                                 <option value="gsm">Sexual Orientation</option>
                                 <option value="alive">Alive or Dead?</option>
-                                <option value="year">Year of Apperance</option>
+                                <option value="year">Year of Appearance</option>
                                 <option value="publisher">Publisher</option>
-                                <option value="appreances">Number of Apperances</option>
                             </select><br />
                             </div>
                             Column of the pivot table:
@@ -68,21 +67,21 @@
                                 <option value="sex">Gender</option>
                                 <option value="gsm">Sexual Orientation</option>
                                 <option value="alive">Alive or Dead?</option>
-                                <option value="year">Year of Apperance</option>
+                                <option value="year">Year of Appearance</option>
                                 <option value="publisher">Publisher</option>
-                                <option value="appreances">Number of Apperances</option>
                             </select><br />
                             </div>
                             Values:
                             <div class="select-wrapper">
                             <select name="Values" id="value">
-                                <option value="appreances">appreances</option>
-                                <option value="Count">Count</option>
+                                <option value="count">Number of Characters</option>
+                                <option value="appearances">Number of Appearances</option>
                             </select><br />
                             </div>
-                            <div id='filterTitle'>Filter:</div>
+                            <div id='filterTitle'>Filter (by column):</div>
                             <div class="select-wrapper">
                             <select name="Filter" id="filter">
+                                <option value="all" selected="selected">View All</option>
                                 <option value="id">Identity Status</option>
                                 <option value="align">Alignment</option>
                                 <option value="eye">Eye Colour</option>
@@ -90,12 +89,11 @@
                                 <option value="sex">Gender</option>
                                 <option value="gsm">Sexual Orientation</option>
                                 <option value="alive">Alive or Dead?</option>
-                                <option value="year">Year of Apperance</option>
+                                <option value="year">Year of Appearance</option>
                                 <option value="publisher">Publisher</option>
-                                <option value="appreances">Number of Apperances</option>
                             </select>
                             </div>
-                            <input id="filterValue" type="text" name="filter_value">
+                            <input id="filterValue" type="text" name="filter_value" disabled>
                             <input id="generate" type="submit" value="Generate Pivot">
                         </form>
                         <div id="table">
