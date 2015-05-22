@@ -19,6 +19,7 @@ def uniqueonly(x):
     uniques = uniques + [uniques.pop(uniques.index('N/A'))]
     return uniques
 
+
 #the cgi library gets vars from html
 form = cgi.FieldStorage()
 
@@ -68,11 +69,20 @@ for row in outputRow:
             if item[rowAttribute] == row and item[colAttribute] == col:
                 count += 1
         total.append(count)
+        
+# Color Function
+def color(x):
+    n = float(x)/float(max(total)) 
+    h = 120
+    s = 100
+    l = 65
+    a = n*1
+    color = 'hsla(%s, %s%%, %s%%, %s)' % (h, s, l, a)
+    return color
     
 #Python Output
 print 'Content-Type: text/html\n'
-print
-
+print '<p>%s</p>' % color(total[4])
 print '<table><tr><td></td>'
 
 for x in outputCol:
@@ -83,7 +93,7 @@ for row in outputRow:
     print '<tr>'
     print '<td>%s</td>' % row
     for col in outputCol:
-        print '<td>'
+        print '<td style = "background-color:%s;color:black">' % color(total[i])
         print total[i]
         i += 1
         print '</td>'
