@@ -9,10 +9,10 @@ function submit() {
         type: "POST",
         data: {row: row, column: column, value: value, filter: filter, filterValue: filterValue},
         dataType: 'html',
-        url: '../Pivot Table/pivot.py',
+        url: 'pivot.py',
         success: function(data) {
           console.log(data)
-          $('#testTitle').html(data);
+          $('#table').html(data);
         }
     });
 
