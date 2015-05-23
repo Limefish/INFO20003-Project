@@ -31,7 +31,6 @@ $(document).ready(function() {
     };
     $('#generate').click(submit);
     $("#filter").change(function() {
-        console.log('blah')
         if($('#filter option:selected').val() == "all") {
             $("#filterValue").prop("disabled", true)
             $("#filterValue").css({
