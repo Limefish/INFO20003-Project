@@ -1,5 +1,19 @@
 var dataset
 
+// Make a copy of the default theme
+var HCDefaults = $.extend(true, {}, Highcharts.getOptions(), {});
+
+function ResetOptions() {
+    // Fortunately, Highcharts returns the reference to defaultOptions itself
+    // We can manipulate this and delete all the properties
+    var defaultOptions = Highcharts.getOptions();
+    for (var prop in defaultOptions) {
+        if (typeof defaultOptions[prop] !== 'function') delete defaultOptions[prop];
+    }
+    // Fall back to the defaults that we captured initially, this resets the theme
+    Highcharts.setOptions(HCDefaults);
+}
+
 $(document).ready(function() {
     //Makes an AJAX request, where it collects all the data needed for the charts
     //in the form of a json file.
@@ -35,11 +49,11 @@ $(document).ajaxStop(function () {
                 dataLabels: {
                     enabled: true,
                     format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                    style: {
-                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                    }
                 }
             }
+        },
+        credits: {
+            enabled: false
         },
         series: [{
             data: [
@@ -77,11 +91,11 @@ $(document).ajaxStop(function () {
                 dataLabels: {
                     enabled: true,
                     format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                    style: {
-                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                    }
                 }
             }
+        },
+        credits: {
+            enabled: false
         },
         series: [{
             data: [
