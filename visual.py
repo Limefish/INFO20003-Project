@@ -1,14 +1,16 @@
-import cgi
-import csv
-import cgitb; cgitb.enable()
 import re
 import csv
 import json
+from collections import defaultdict
 
 reader=csv.DictReader(open('./data/combined.csv',"rU"))
 
 datalist = {title.strip():[data.strip()]
             for title, data in reader.next().items()}
+
+#A dictionary to store all the output data
+dataset = defaultdict()
+
 #A list, where each item will be a dictionary for each character
 characters = []
 
@@ -23,42 +25,33 @@ for character in characters:
     for header, count in character.iteritems():
         if not count:
             character[header] = "N/A"
-            
-            
-#counting female(not really needed)            
-femalecount = 0            
-for x in characters:
-    if x['sex'] == 'Female Characters':
-        femalecount += 1
-
         
 
-#counting female with good or bad alignment
-
-goodfemale = 0
-badfemale = 0
-neutralfemale = 0
-reformedfemale = 0
-notavailable = 0
+#Pie Chart 1: Counting females and their alignments
+goodFemale = 0
+badFemale = 0
+neutralFemale = 0
+reformedFemale = 0
+notAvailable = 0
 list = []
 for x in characters:
     if x['sex'] == 'Female Characters':
         if x['align'] == 'Good Characters':
-            goodfemale += 1
+            goodFemale += 1
         elif x['align'] == 'Neutral Characters':
-            neutralfemale += 1 
+            neutralFemale += 1
         elif x['align'] == 'Bad Characters':
-            badfemale += 1           
+            badFemale += 1           
         elif x['align'] == 'Reformed Criminals':
-            reformedfemale += 1
-        else: 
-            notavailable += 1
+            reformedFemale += 1
+        else:
+            notAvailable += 1
 
 
-alignpiedata = {"goodfemale": goodfemale, "badfemale": badfemale, "neutralfemale": neutralfemale, "reformedfemale": reformedfemale, "notavailable": notavailable}
-
-print alignpiedata
-            
-            
+dataset['alignPieData'] = {"goodFemale": goodFemale, "badFemale": badFemale, "neutralFemale": neutralFemale, "reformedFemale": reformedFemale, "notAvailable": notAvailable}
 
 
+print 'Content-Type: application/json'
+print
+
+print json.dumps(dataset)

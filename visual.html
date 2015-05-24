@@ -22,6 +22,7 @@
             <link rel="stylesheet" href="css/style.css" />
             <link rel="stylesheet" href="css/style-xlarge.css" />
         </noscript>
+        <script type="text/javascript" src="js/visual.js"></script>
     </head>
     <body id="top">
 
@@ -63,66 +64,6 @@
                         <div class="12u">
                             <section class="special">
                                 <div id="container" style="min-width: 500px; height: 500px; margin:0 auto"></div>
-                                <!-- I'm trying to get the data from pie1.py but it doesnt work...?
-                                   function getData() {
-                                     #$.ajax({
-                                       #type: "GET",
-                                        url: 'pie1.py',
-                                       success: function(data) {
-                                           var good = data['goodfemale']
-                                           var bad = data['badfemale']
-                                           var neutral = data['neutralfemale']
-                                           var reformed = data['reformedfemale']
-                                           var unknown = data['notavailable']
-                                               }
-                                $(document).ready(getData);  
-                                           //-->
-                                <script type= "text/javascript">
-                                $(function () {
-    $('#container').highcharts({
-        chart: {
-            plotBackgroundColor: null,
-            plotBorderWidth: null,
-            plotShadow: false
-        },
-        title: {
-            text: 'Alignment of Female Characters'
-        },
-        tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-        },
-        plotOptions: {
-            pie: {
-                allowPointSelect: true,
-                cursor: 'pointer',
-                dataLabels: {
-                    enabled: true,
-                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                    style: {
-                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                    }
-                }
-            }
-        },
-        series: [{
-            type: 'pie',
-            name: 'Browser share',
-            data: [
-                                {
-                    name: 'Good',
-                    y: 3,
-                    sliced: true,
-                    selected: true
-                },
-                ['Neutral',   1],
-                ['Bad',       1],
-                ['Reformed',    0],
-                ['NotAvailable',     0]
-            ]
-        }]
-    });
-});
-                                    </script>
                                 <h3>Female characters are often portrayed as good gals.</h3>
                                 <p>Female superhero characters have not gained much ground. The percentage of new characters who are female has stagnated at around 30%. This stll far from reaching gender parity.</p>
                                 <ul class="actions">

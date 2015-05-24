@@ -15,7 +15,7 @@ print
 # Function to obtain a list of uniques
 def uniqueonly(x):
     uniques = []
-    setlist = set(x)
+    setlist = set(x)x
     for item in setlist:
         if not item:
             #Gives empty cells within the csv a value of 'N/A'
