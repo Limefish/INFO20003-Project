@@ -1,6 +1,8 @@
 var dataset
 
 $(document).ready(function() {
+    //Makes an AJAX request, where it collects all the data needed for the charts
+    //in the form of a json file.
     $.ajax({
         type: "GET",
         url: 'visual.py',
@@ -12,17 +14,19 @@ $(document).ready(function() {
 });
 
 $(document).ajaxStop(function () {
-    $('#container').highcharts({
+    //Waits until the AJAX request is finished
+    $('.pie1').highcharts({
         chart: {
             plotBackgroundColor: null,
             plotBorderWidth: null,
-            plotShadow: false
+            plotShadow: false,
+            type: 'pie'
         },
         title: {
             text: 'Alignment of Female Characters'
         },
         tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            pointFormat: '<b>{point.percentage:.1f}%</b>'
         },
         plotOptions: {
             pie: {
@@ -38,19 +42,59 @@ $(document).ajaxStop(function () {
             }
         },
         series: [{
-            type: 'pie',
-            name: 'Browser share',
             data: [
                 {
                     name: 'Good',
                     y: dataset.alignPieData.goodFemale,
-                    sliced: true,
-                    selected: true
                 },
                 ['Neutral', dataset.alignPieData.neutralFemale],
-                ['Bad', dataset.alignPieData.badFemale],
-                ['Reformed', dataset.alignPieData.reformedFemale],
-                ['NotAvailable', dataset.alignPieData.notAvailable]
+                {
+                    name: 'Bad',
+                    y: dataset.alignPieData.badFemale,
+                    color: 'red'
+                }
+            ]
+        }]
+    });
+
+    $('.pie2').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: 'Alignment of Male Characters'
+        },
+        tooltip: {
+            pointFormat: '<b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                }
+            }
+        },
+        series: [{
+            data: [
+                {
+                    name: 'Good',
+                    y: dataset.alignPieData.goodMale,
+                },
+                ['Neutral', dataset.alignPieData.neutralMale],
+                {
+                    name: 'Bad',
+                    y: dataset.alignPieData.badMale,
+                    color: 'red'
+                }
             ]
         }]
     });

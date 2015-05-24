@@ -27,12 +27,9 @@ for character in characters:
             character[header] = "N/A"
         
 
-#Pie Chart 1: Counting females and their alignments
-goodFemale = 0
-badFemale = 0
-neutralFemale = 0
-reformedFemale = 0
-notAvailable = 0
+#Pie Chart 1: Sorting alignments by gender
+goodFemale = badFemale = neutralFemale = reformedFemale = 0
+goodMale = badMale = neutralMale = reformedMale = 0
 list = []
 for x in characters:
     if x['sex'] == 'Female Characters':
@@ -44,11 +41,20 @@ for x in characters:
             badFemale += 1           
         elif x['align'] == 'Reformed Criminals':
             reformedFemale += 1
-        else:
-            notAvailable += 1
+    elif x['sex'] == 'Male Characters':
+        if x['align'] == 'Good Characters':
+            goodMale += 1
+        elif x['align'] == 'Neutral Characters':
+            neutralMale += 1
+        elif x['align'] == 'Bad Characters':
+            badMale += 1           
+        elif x['align'] == 'Reformed Criminals':
+            reformedMale += 1
 
-
-dataset['alignPieData'] = {"goodFemale": goodFemale, "badFemale": badFemale, "neutralFemale": neutralFemale, "reformedFemale": reformedFemale, "notAvailable": notAvailable}
+dataset['alignPieData'] = {"goodFemale": goodFemale, "badFemale": badFemale,
+                           "neutralFemale": neutralFemale, "reformedFemale": reformedFemale,
+                           "goodMale": goodMale, "badMale": badMale,
+                           "neutralMale": neutralMale, "reformedMale": reformedMale}
 
 
 print 'Content-Type: application/json'
