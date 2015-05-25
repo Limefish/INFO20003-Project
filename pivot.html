@@ -36,13 +36,18 @@
             </header>
 
         <!-- Main -->
-            <section id="main" class="wrapper style1">
-                <header class="major">
-                    <h2>Pivot Table</h2>
-                </header>
+            <section id="banner">
+            <div class="inner">
+                <h2>Pivot Table</h2>
+                <p>Our data summarised for you in a tabular form</p>
+            </div>
+            </section>
+
+            <section id="one" class="wrapper style1">
                 <div class="container">
                     <section id="pivotTable">
                         <form method="post">
+                            <div class="rowsColumns">
                             Row of the pivot table:
                             <div class="select-wrapper">
                             <select name="Row" id="row">
@@ -71,6 +76,8 @@
                                 <option value="publisher">Publisher</option>
                             </select><br />
                             </div>
+                            </div>
+                            <div class="valuesFilters">
                             Values:
                             <div class="select-wrapper">
                             <select name="Values" id="value">
@@ -94,7 +101,8 @@
                             </select>
                             </div>
                             <input id="filterValue" type="text" name="filter_value" disabled>
-                            <input id="generate" type="submit" value="Generate Pivot">
+                            </div>
+                            <input id="generate" class ="button special" type="submit" value="Generate Pivot">
                         </form>
                         <div id="table">
                         </div>
@@ -149,4 +157,4 @@
             </footer>
 
     </body>
-</html>​
+</html>
