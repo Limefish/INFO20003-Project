@@ -36,10 +36,15 @@ maleCount =  defaultdict(int)
 femaleCount = defaultdict(int)
 totalCount = defaultdict(int)
 
+#Bar Chart for Gender Count
+totalMale = totalFemale = totalOthers = 0
+
 for x in characters:
     totalCount[x['year']] += 1
+    totalOthers += 1
     if x['sex'] == 'Female Characters':
         femaleCount[x['year']] += 1
+        totalFemale += 1
         if x['align'] == 'Good Characters':
             goodFemale += 1
         elif x['align'] == 'Neutral Characters':
@@ -49,6 +54,7 @@ for x in characters:
         elif x['align'] == 'Reformed Criminals':
             reformedFemale += 1
     elif x['sex'] == 'Male Characters':
+        totalMale += 1
         maleCount[x['year']] += 1
         if x['align'] == 'Good Characters':
             goodMale += 1
@@ -81,23 +87,14 @@ dataset['femaleCount'] = femaleCount
 dataset['maleCount'] = maleCount
 dataset['totalCount'] = totalCount
 
+
 #Bar Chart for Gender Count
-totalMale = totalFemale = totalOthers = 0
-
-for x in characters:
-    if x['sex'] == 'Female Characters':
-        totalFemale += 1
-    elif x['sex'] == 'Male Characters':
-        totalMale += 1
-    else:
-        totalOthers +=1
-
+totalOthers -= (totalMale + totalFemale)
 dataset['genderCount'] = {"totalMale": totalMale, "totalFemale": totalFemale, "totalOthers": totalOthers}
         
-
 
 #Output
 print 'Content-Type: application/json'
 print
 
-print json.dumps(dataset)​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​
+print json.dumps(dataset)

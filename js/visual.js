@@ -1,16 +1,14 @@
 var dataset
 
-// Make a copy of the default theme
+// Make a copy of the default Highcharts theme
 var HCDefaults = $.extend(true, {}, Highcharts.getOptions(), {});
 
 function ResetOptions() {
-    // Fortunately, Highcharts returns the reference to defaultOptions itself
-    // We can manipulate this and delete all the properties
+    //Resets the Highcharts theme back to default
     var defaultOptions = Highcharts.getOptions();
     for (var prop in defaultOptions) {
         if (typeof defaultOptions[prop] !== 'function') delete defaultOptions[prop];
     }
-    // Fall back to the defaults that we captured initially, this resets the theme
     Highcharts.setOptions(HCDefaults);
 }
 
@@ -28,39 +26,40 @@ $(document).ready(function() {
 });
 
 $(document).ajaxStop(function () {
-//Waits until the AJAX request is finished  
-var femaleValues = []
-var maleValues = []
-var femaleCount = {};
-var maleCount = {};
-var totalCount = {};
+//Waits until the AJAX request is finished
 
-Object.keys(dataset.femaleCount)
-      .sort()
-      .forEach(function (year) {
-         femaleCount[year] = dataset.femaleCount[year];
-      });
+    var femaleValues = []
+    var maleValues = []
+    var femaleCount = {};
+    var maleCount = {};
+    var totalCount = {};
 
-Object.keys(dataset.maleCount)
-      .sort()
-      .forEach(function (year) {
-         maleCount[year] = dataset.maleCount[year];
-      });
+    //Sorts the sbjects by Year (if required)
+    Object.keys(dataset.femaleCount)
+          .sort()
+          .forEach(function (year) {
+             femaleCount[year] = dataset.femaleCount[year];
+          });
+    Object.keys(dataset.maleCount)
+          .sort()
+          .forEach(function (year) {
+             maleCount[year] = dataset.maleCount[year];
+          });
+    Object.keys(dataset.totalCount)
+          .sort()
+          .forEach(function (year) {
+             totalCount[year] = dataset.totalCount[year];
+          });
 
-Object.keys(dataset.totalCount)
-      .sort()
-      .forEach(function (year) {
-         totalCount[year] = dataset.totalCount[year];
-      });
+    //Makes sure that both males and females have the same amount of years
+    for (var year in femaleCount) {
+        femaleValues.push(femaleCount[year]/totalCount[year])
+    }
+    for (var year in maleCount) {
+        maleValues.push(maleCount[year]/totalCount[year])
+    }
 
-for (var year in femaleCount) {
-    femaleValues.push(femaleCount[year]/totalCount[year])
-}
-for (var year in maleCount) {
-    maleValues.push(maleCount[year]/totalCount[year])
-}
-
-$(function () {
+    //Generation of Charts
     $('.genderRatio').highcharts({
         chart: {
             type: 'area'
@@ -126,8 +125,8 @@ $(function () {
             data: femaleValues
         }]       
     });
-});
 
+    Highcharts.setOptions(Highcharts.theme);
     $('.genderCount').highcharts({
         chart: {
             type: 'bar'
@@ -180,7 +179,8 @@ $(function () {
             data: [dataset.genderCount.totalMale, dataset.genderCount.totalFemale, dataset.genderCount.totalOthers]
         }]
     });
-
+    
+    ResetOptions();
     $('.pie1').highcharts({
         chart: {
             plotBackgroundColor: null,
@@ -264,4 +264,4 @@ $(function () {
             ]
         }]
     });
-});​
+});
