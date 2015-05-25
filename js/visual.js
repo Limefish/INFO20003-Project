@@ -27,7 +27,7 @@ $(document).ready(function() {
 
 $(document).ajaxStop(function () {
 //Waits until the AJAX request is finished
-
+      
     var femaleValues = []
     var maleValues = []
     var femaleCount = {};
@@ -50,6 +50,7 @@ $(document).ajaxStop(function () {
           .forEach(function (year) {
              totalCount[year] = dataset.totalCount[year];
           });
+    
 
     //Makes sure that both males and females have the same amount of years
     for (var year in femaleCount) {
@@ -161,11 +162,11 @@ $(document).ajaxStop(function () {
             }
         },
         legend: {
-            layout: 'vertical',
+            layout: 'horizontal',
             align: 'right',
             verticalAlign: 'top',
             x: -40,
-            y: 100,
+            y: 200,
             floating: true,
             borderWidth: 1,
             backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
@@ -180,6 +181,72 @@ $(document).ajaxStop(function () {
         }]
     });
     
+    $('.scatterPlot').highcharts({
+        chart: {
+            type: 'scatter',
+            zoomType: 'xy'
+        },
+        title: {
+            text: 'Ratio of Public Identity Versus Ratio of Good Characters'
+        },
+        subtitle: {
+            text: 'Comic Characters from 1935 to 2013'
+        },
+        xAxis: {
+            title: {
+                enabled: true,
+                text: 'Good Character Ratio (%)'
+            },
+            startOnTick: true,
+            endOnTick: true,
+            showLastLabel: true
+        },
+        yAxis: {
+            title: {
+                text: 'Public Identity Ratio (%)'
+            }
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'left',
+            verticalAlign: 'top',
+            x: 100,
+            y: 70,
+            floating: true,
+            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF',
+            borderWidth: 1
+        },
+        plotOptions: {
+            scatter: {
+                marker: {
+                    radius: 5,
+                    states: {
+                        hover: {
+                            enabled: true,
+                            lineColor: 'rgb(100,100,100)'
+                        }
+                    }
+                },
+                states: {
+                    hover: {
+                        marker: {
+                            enabled: false
+                        }
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<b>{series.name}</b><br>',
+                    pointFormat: '{point.x} %, {point.y} %'
+                }
+            }
+        },
+        series: [{
+            name: 'Year',
+            color: 'rgba(223, 83, 83, .5)',
+            data: dataset.scatterPlotData
+        }]
+    });
+
     ResetOptions();
     $('.pie1').highcharts({
         chart: {
@@ -264,4 +331,4 @@ $(document).ajaxStop(function () {
             ]
         }]
     });
-});
+});​

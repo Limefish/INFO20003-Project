@@ -93,8 +93,54 @@ totalOthers -= (totalMale + totalFemale)
 dataset['genderCount'] = {"totalMale": totalMale, "totalFemale": totalFemale, "totalOthers": totalOthers}
         
 
+#Scatterplot data 
+#a dictionary with count of public identities for each year
+publicCount = defaultdict(float)
+#a dictionary with ratio of public identities for each year
+publicRatio = defaultdict(float)
+
+for x in characters:
+    if x['id'] == 'Public Identity':
+        publicCount[x['year']] += 1 
+        
+        
+for year in publicCount:
+    for year2 in totalCount:
+        if year == year2:
+            publicRatio[year] = publicCount[year]/totalCount[year]
+            
+goodCount = defaultdict(float)
+goodRatio = defaultdict(float)
+
+for x in characters:
+    if x['align'] == 'Good Characters':
+        goodCount[x['year']] += 1
+        
+for year in goodCount:
+    for year2 in totalCount:
+        if year == year2:
+            goodRatio[year] = goodCount[year]/totalCount[year]
+            
+#Format accepted by scatterplot is listoflists
+scatterPlotData = []
+list = []
+
+for year in publicRatio:
+    for year2 in goodRatio:
+        if year == year2:
+            scatterPlotData.append([goodRatio[year],publicRatio[year]])
+    
+
+            
+dataset['scatterPlotData'] = scatterPlotData
+            
+
+        
+
+
 #Output
 print 'Content-Type: application/json'
 print
 
 print json.dumps(dataset)
+​
