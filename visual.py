@@ -37,11 +37,11 @@ femaleCount = defaultdict(int)
 totalCount = defaultdict(int)
 
 #Bar Chart for Gender Count
-totalMale = totalFemale = totalOthers = 0
+totalMale = totalFemale = total = 0
 
 for x in characters:
     totalCount[x['year']] += 1
-    totalOthers += 1
+    total += 1
     if x['sex'] == 'Female Characters':
         femaleCount[x['year']] += 1
         totalFemale += 1
@@ -87,10 +87,29 @@ dataset['femaleCount'] = femaleCount
 dataset['maleCount'] = maleCount
 dataset['totalCount'] = totalCount
 
+#Generates a cumulative total for each gender year-by-year
+cumulativeMale = [1]
+cumulativeFemale = [0] #There were 0 female characters in the first year
+cumulativeTotal = [1]
+i = 0
+for year in sorted(maleCount.keys()):
+    #Males and females should have the same number of years due to the for loops earlier
+    cumulativeMale.append(cumulativeMale[i] + maleCount[year])
+    cumulativeFemale.append(cumulativeFemale[i] + femaleCount[year])
+    
+    #Don't want to sum cumulativeMale with cumulativeFemale to get the total amount of characters that
+    #were given a valid year in the dataset. This is because genders include more than just males and females.
+    cumulativeTotal.append(cumulativeTotal[i] + totalCount[year])
+    i += 1
+    
+dataset['cumulativeMale'] = cumulativeMale
+dataset['cumulativeFemale'] = cumulativeFemale
+dataset['cumulativeTotal'] = cumulativeTotal
+
 
 #Bar Chart for Gender Count
-totalOthers -= (totalMale + totalFemale)
-dataset['genderCount'] = {"totalMale": totalMale, "totalFemale": totalFemale, "totalOthers": totalOthers}
+totalOthers = total - (totalMale + totalFemale)
+dataset['genderCount'] = {"totalMale": totalMale, "totalFemale": totalFemale, "totalOthers": totalOthers, "total": total}
         
 
 #Scatterplot data 
@@ -143,4 +162,3 @@ print 'Content-Type: application/json'
 print
 
 print json.dumps(dataset)
-​

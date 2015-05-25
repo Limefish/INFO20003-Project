@@ -28,8 +28,10 @@ $(document).ready(function() {
 $(document).ajaxStop(function () {
 //Waits until the AJAX request is finished
       
-    var femaleValues = []
-    var maleValues = []
+    var femaleValues = [];
+    var maleValues = [];
+    var cumulativeFemales = [];
+    var cumulativeMales = [];
     var femaleCount = {};
     var maleCount = {};
     var totalCount = {};
@@ -54,10 +56,14 @@ $(document).ajaxStop(function () {
 
     //Makes sure that both males and females have the same amount of years
     for (var year in femaleCount) {
-        femaleValues.push(femaleCount[year]/totalCount[year])
+        femaleValues.push(femaleCount[year]/totalCount[year]);
     }
     for (var year in maleCount) {
-        maleValues.push(maleCount[year]/totalCount[year])
+        maleValues.push(maleCount[year]/totalCount[year]);
+    }
+    for (var i = 0; i < femaleValues.length; i++) {
+        cumulativeMales.push(dataset.cumulativeMale[i]/dataset.cumulativeTotal[i]);
+        cumulativeFemales.push(dataset.cumulativeFemale[i]/dataset.cumulativeTotal[i]);
     }
 
     //Generation of Charts
@@ -101,6 +107,12 @@ $(document).ajaxStop(function () {
                 s += '<br/>' + '<span style="color:' + this.points[1].series.color + '">♦</span>'
                 + this.points[1].series.name + ': <b>' + (this.points[1].y * 100).toFixed(2) + '%</b>';
 
+                s += '<br/>' + '<span style="color:' + this.points[2].series.color + '">■</span>'
+                + this.points[2].series.name + ': <b>' + (this.points[2].y * 100).toFixed(2) + '%</b>';
+
+                s += '<br/>' + '<span style="color:' + this.points[3].series.color + '">▲</span>'
+                + this.points[3].series.name + ': <b>' + (this.points[3].y * 100).toFixed(2) + '%</b>';
+
                 return s;
             },
         },
@@ -113,6 +125,7 @@ $(document).ajaxStop(function () {
                 lineColor: '#666666',
                 lineWidth: 1,
                 marker: {
+                    enabled: false,
                     lineWidth: 1,
                     lineColor: '#666666'
                 }
@@ -124,6 +137,26 @@ $(document).ajaxStop(function () {
         }, {
             name: 'Females',
             data: femaleValues
+        }, {
+            type: 'spline',
+            name: 'Cumulative Males',
+            data: cumulativeMales,
+            marker: {
+                enabled: false,
+                lineWidth: 2,
+                lineColor: Highcharts.getOptions().colors[2],
+                fillColor: Highcharts.getOptions().colors[2]
+            }
+        }, {
+            type: 'spline',
+            name: 'Cumulative Females',
+            data: cumulativeFemales,
+            marker: {
+                enabled: false,
+                lineWidth: 2,
+                lineColor: Highcharts.getOptions().colors[3],
+                fillColor: Highcharts.getOptions().colors[3]
+            }
         }]       
     });
 
