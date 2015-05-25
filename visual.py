@@ -81,9 +81,23 @@ dataset['femaleCount'] = femaleCount
 dataset['maleCount'] = maleCount
 dataset['totalCount'] = totalCount
 
+#Bar Chart for Gender Count
+totalMale = totalFemale = totalOthers = 0
+
+for x in characters:
+    if x['sex'] == 'Female Characters':
+        totalFemale += 1
+    elif x['sex'] == 'Male Characters':
+        totalMale += 1
+    else:
+        totalOthers +=1
+
+dataset['genderCount'] = {"totalMale": totalMale, "totalFemale": totalFemale, "totalOthers": totalOthers}
+        
+
 
 #Output
 print 'Content-Type: application/json'
 print
 
-print json.dumps(dataset)
+print json.dumps(dataset)​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​

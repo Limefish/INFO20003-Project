@@ -128,6 +128,58 @@ $(function () {
     });
 });
 
+    $('.genderCount').highcharts({
+        chart: {
+            type: 'bar'
+        },
+        title: {
+            text: 'Gender Count'
+        },
+        subtitle: {
+            text: 'Gender Count of Males and Females'
+        },
+        xAxis: {
+            categories: ['Male', 'Female', 'Others'],
+            title: {
+                text: null
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Count',
+                align: 'high'
+            },
+            labels: {
+                overflow: 'justify'
+            }
+        },
+        plotOptions: {
+            bar: {
+                dataLabels: {
+                    enabled: true
+                }
+            }
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'top',
+            x: -40,
+            y: 100,
+            floating: true,
+            borderWidth: 1,
+            backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+            shadow: true
+        },
+        credits: {
+            enabled: false
+        },
+        series: [{
+            name: 'Count',
+            data: [dataset.genderCount.totalMale, dataset.genderCount.totalFemale, dataset.genderCount.totalOthers]
+        }]
+    });
 
     $('.pie1').highcharts({
         chart: {
@@ -212,4 +264,4 @@ $(function () {
             ]
         }]
     });
-});
+});​
