@@ -27,12 +27,19 @@ for character in characters:
             character[header] = "N/A"
         
 
-#Pie Chart 1: Sorting alignments by gender
+#Pie Chart 1 and 2: Sorting alignments by gender
 goodFemale = badFemale = neutralFemale = reformedFemale = 0
 goodMale = badMale = neutralMale = reformedMale = 0
-list = []
+
+#Stacked Chart: Gender Ratio by Year
+maleCount =  defaultdict(int)
+femaleCount = defaultdict(int)
+totalCount = defaultdict(int)
+
 for x in characters:
+    totalCount[x['year']] += 1
     if x['sex'] == 'Female Characters':
+        femaleCount[x['year']] += 1
         if x['align'] == 'Good Characters':
             goodFemale += 1
         elif x['align'] == 'Neutral Characters':
@@ -42,6 +49,7 @@ for x in characters:
         elif x['align'] == 'Reformed Criminals':
             reformedFemale += 1
     elif x['sex'] == 'Male Characters':
+        maleCount[x['year']] += 1
         if x['align'] == 'Good Characters':
             goodMale += 1
         elif x['align'] == 'Neutral Characters':
@@ -51,12 +59,30 @@ for x in characters:
         elif x['align'] == 'Reformed Criminals':
             reformedMale += 1
 
+#Pie Chart 1 and 2
 dataset['alignPieData'] = {"goodFemale": goodFemale, "badFemale": badFemale,
                            "neutralFemale": neutralFemale, "reformedFemale": reformedFemale,
                            "goodMale": goodMale, "badMale": badMale,
                            "neutralMale": neutralMale, "reformedMale": reformedMale}
 
+#Stacked Chart
+femaleCount.pop('N/A')
+maleCount.pop('N/A')
+totalCount.pop('N/A')
 
+for year in maleCount.keys():
+    if year not in femaleCount.keys():
+        femaleCount[year] = 0
+for year in femaleCount.keys():
+    if year not in maleCount.keys():
+        maleCount[year] = 0
+
+dataset['femaleCount'] = femaleCount
+dataset['maleCount'] = maleCount
+dataset['totalCount'] = totalCount
+
+
+#Output
 print 'Content-Type: application/json'
 print
 

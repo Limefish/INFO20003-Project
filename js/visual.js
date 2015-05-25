@@ -15,8 +15,8 @@ function ResetOptions() {
 }
 
 $(document).ready(function() {
-    //Makes an AJAX request, where it collects all the data needed for the charts
-    //in the form of a json file.
+//Makes an AJAX request, where it collects all the data needed for the charts
+//in the form of a json file.
     $.ajax({
         type: "GET",
         url: 'visual.py',
@@ -28,7 +28,107 @@ $(document).ready(function() {
 });
 
 $(document).ajaxStop(function () {
-    //Waits until the AJAX request is finished
+//Waits until the AJAX request is finished  
+var femaleValues = []
+var maleValues = []
+var femaleCount = {};
+var maleCount = {};
+var totalCount = {};
+
+Object.keys(dataset.femaleCount)
+      .sort()
+      .forEach(function (year) {
+         femaleCount[year] = dataset.femaleCount[year];
+      });
+
+Object.keys(dataset.maleCount)
+      .sort()
+      .forEach(function (year) {
+         maleCount[year] = dataset.maleCount[year];
+      });
+
+Object.keys(dataset.totalCount)
+      .sort()
+      .forEach(function (year) {
+         totalCount[year] = dataset.totalCount[year];
+      });
+
+for (var year in femaleCount) {
+    femaleValues.push(femaleCount[year]/totalCount[year])
+}
+for (var year in maleCount) {
+    maleValues.push(maleCount[year]/totalCount[year])
+}
+
+$(function () {
+    $('.genderRatio').highcharts({
+        chart: {
+            type: 'area'
+        },
+        title: {
+            text: 'Gender Ratio of Comic Book Characters Introduced Each Year'
+        },
+        subtitle: {
+            text: 'Maybe add a line indicating the cumulative'
+        },
+        xAxis: {
+            categories: Object.keys(maleCount),
+            tickmarkPlacement: 'on',
+            title: {
+                enabled: false
+            },
+            tickInterval: 6
+        },
+        yAxis: {
+            title: {
+                text: 'Percentage'
+            },
+            max: 1,
+            labels: {
+                formatter: function () {
+                    return this.value * 100;
+                }
+            }
+        },
+        tooltip: {
+            shared: true,
+            formatter: function () {
+                var s = this.x;
+
+                s += '<br/>' + '<span style="color:' + this.points[0].series.color + '">●</span>'
+                + this.points[0].series.name + ': <b>' + (this.points[0].y * 100).toFixed(2) + '%</b>';
+
+                s += '<br/>' + '<span style="color:' + this.points[1].series.color + '">♦</span>'
+                + this.points[1].series.name + ': <b>' + (this.points[1].y * 100).toFixed(2) + '%</b>';
+
+                return s;
+            },
+        },
+        credits: {
+            enabled: false
+        },
+        plotOptions: {
+            area: {
+                stacking: 'normal',
+                lineColor: '#666666',
+                lineWidth: 1,
+                marker: {
+                    lineWidth: 1,
+                    lineColor: '#666666'
+                }
+            }
+        },
+        series: [{
+            name: 'Males',
+            data: maleValues
+        }, {
+            name: 'Females',
+            data: femaleValues
+        }]       
+    });
+});
+
+
     $('.pie1').highcharts({
         chart: {
             plotBackgroundColor: null,
