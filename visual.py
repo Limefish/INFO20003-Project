@@ -3,7 +3,11 @@ import csv
 import json
 from collections import defaultdict
 
+###############################################################################
+#Data Import and Initial Processing
+###############################################################################
 reader=csv.DictReader(open('./data/combined.csv',"rU"))
+
 
 datalist = {title.strip():[data.strip()]
             for title, data in reader.next().items()}
@@ -42,6 +46,8 @@ totalMale = totalFemale = total = 0
 for x in characters:
     totalCount[x['year']] += 1
     total += 1
+
+    #Generates count of
     if x['sex'] == 'Female Characters':
         femaleCount[x['year']] += 1
         totalFemale += 1
@@ -64,14 +70,25 @@ for x in characters:
             badMale += 1           
         elif x['align'] == 'Reformed Criminals':
             reformedMale += 1
+    
+    if x['gsm'] == 'Homosexual Characters':
+        #Assumes that those not labelled as a sexual minority by the dataset are straight
+        homoCount += 1
 
+
+
+###############################################################################
 #Pie Chart 1 and 2
+###############################################################################
 dataset['alignPieData'] = {"goodFemale": goodFemale, "badFemale": badFemale,
                            "neutralFemale": neutralFemale, "reformedFemale": reformedFemale,
                            "goodMale": goodMale, "badMale": badMale,
                            "neutralMale": neutralMale, "reformedMale": reformedMale}
 
+
+###############################################################################
 #Stacked Chart
+###############################################################################
 femaleCount.pop('N/A')
 maleCount.pop('N/A')
 totalCount.pop('N/A')
@@ -107,15 +124,19 @@ dataset['cumulativeFemale'] = cumulativeFemale
 dataset['cumulativeTotal'] = cumulativeTotal
 
 
+###############################################################################
 #Bar Chart for Gender Count
+###############################################################################
 totalOthers = total - (totalMale + totalFemale)
 dataset['genderCount'] = {"totalMale": totalMale, "totalFemale": totalFemale, "totalOthers": totalOthers, "total": total}
         
 
+###############################################################################
 #Scatterplot data 
-#a dictionary with count of public identities for each year
+###############################################################################
+
+#Dictionaries for count and ratio of public identities for each year
 publicCount = defaultdict(float)
-#a dictionary with ratio of public identities for each year
 publicRatio = defaultdict(float)
 
 for x in characters:
@@ -148,16 +169,14 @@ for year in publicRatio:
     for year2 in goodRatio:
         if year == year2:
             scatterPlotData.append([goodRatio[year],publicRatio[year]])
-    
-
-            
+                
 dataset['scatterPlotData'] = scatterPlotData
             
 
-        
 
-
+###############################################################################
 #Output
+###############################################################################
 print 'Content-Type: application/json'
 print
 

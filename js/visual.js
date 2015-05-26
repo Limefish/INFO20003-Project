@@ -4,7 +4,7 @@ var dataset
 var HCDefaults = $.extend(true, {}, Highcharts.getOptions(), {});
 
 function ResetOptions() {
-    //Resets the Highcharts theme back to default
+//Resets the Highcharts theme back to default
     var defaultOptions = Highcharts.getOptions();
     for (var prop in defaultOptions) {
         if (typeof defaultOptions[prop] !== 'function') delete defaultOptions[prop];
@@ -36,7 +36,7 @@ $(document).ajaxStop(function () {
     var maleCount = {};
     var totalCount = {};
 
-    //Sorts the sbjects by Year (if required)
+    //Creates 'sorted' objects by Year (if required)
     Object.keys(dataset.femaleCount)
           .sort()
           .forEach(function (year) {
@@ -52,7 +52,6 @@ $(document).ajaxStop(function () {
           .forEach(function (year) {
              totalCount[year] = dataset.totalCount[year];
           });
-    
 
     //Makes sure that both males and females have the same amount of years
     for (var year in femaleCount) {

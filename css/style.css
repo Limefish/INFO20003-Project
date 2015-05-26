@@ -1158,6 +1158,14 @@
         position: absolute;
     }
 
+    #gradientCell {
+        background: -moz-linear-gradient(left, rgba(239,138,98,1) 0%, rgba(255,255,255,1) 50%, rgba(103,169,207,1) 100%);
+        background: -webkit-gradient(left top, right top, color-stop(0%, rgba(239,138,98,1)), color-stop(50%, rgba(255,255,255,1)), color-stop(100%, rgba(103,169,207,1)));
+        background: -webkit-linear-gradient(left, rgba(239,138,98,1) 0%, rgba(255,255,255,1) 50%, rgba(103,169,207,1) 100%);
+        background: -o-linear-gradient(left, rgba(239,138,98,1) 0%, rgba(255,255,255,1) 50%, rgba(103,169,207,1) 100%);
+        background: -ms-linear-gradient(left, rgba(239,138,98,1) 0%, rgba(255,255,255,1) 50%, rgba(103,169,207,1) 100%);
+        background: linear-gradient(to right, rgba(239,138,98,1) 0%, rgba(255,255,255,1) 50%, rgba(103,169,207,1) 100%);
+    }
 
 
 /* Visualisations */

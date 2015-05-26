@@ -11,8 +11,11 @@ function submit() {
         dataType: 'html',
         url: 'pivot.py',
         success: function(data) {
-          console.log(data)
           $('#table').html(data);
+          $('#gradient').html('');
+          $('#gradient').append('<h3>Colour Legend</h3>');
+          $('#gradient').append('<table><tr><td id="gradientCell"></td></tr></table>');
+          $('#gradient').append('<p style="margin-top: -1.5em">Min <span style="float: right">Max</p></body></html>');
         }
     });
 
@@ -31,7 +34,6 @@ $(document).ready(function() {
     };
     $('#generate').click(submit);
     $("#filter").change(function() {
-        console.log('blah')
         if($('#filter option:selected').val() == "all") {
             $("#filterValue").prop("disabled", true)
             $("#filterValue").css({
@@ -42,6 +44,6 @@ $(document).ready(function() {
             $("#filterValue").css({
                 'opacity': '1.0'
             });
-        }
+        };
     });
 });

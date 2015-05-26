@@ -12,25 +12,51 @@ print 'Content-Type: text/html\n'
 print
 
 
-# Function to obtain a list of uniques
+###############################################################################
+#FUNCTIONS
+###############################################################################
+
+#Function to obtain a list of unique values and assigns empty cells within the
+#CSV a value of 'N/A'
 def uniqueonly(x):
     uniques = []
     setlist = set(x)
     for item in setlist:
         if not item:
-            #Gives empty cells within the csv a value of 'N/A'
             item = 'N/A'
         uniques.append(item)
     uniques = sorted(uniques)
    
     try:
+        #For cases when there is no empty cells within the data
         uniques = uniques + [uniques.pop(uniques.index('N/A'))]
     except ValueError:
         uniques = uniques
     return uniques
 
+#Used to colour the cells of the pivot table,
+#where colour varies with the cell's value
+def color(x):
+    n = float(x)/float(max(total))
+    if n <= 0.5: 
+        h = 17
+        s = 59
+        l = 94
+        a = 1-(n*2)
+    else:
+        h = 202
+        s = 50
+        l = 81
+        a = (n-0.5)*2
+    color = 'hsla(%s, %s%%, %s%%, %s)' % (h, s, l, a)
+    return color
 
-#the cgi library gets vars from html
+
+###############################################################################
+#DATA AND CGI IMPORT
+###############################################################################
+
+#The cgi library gets vars from the select fields in the html page.
 form = cgi.FieldStorage()
 
 pivotValues = {}
@@ -68,12 +94,16 @@ for character in characters:
         if not count:
             character[header] = "N/A"
 
+
+###############################################################################
+#GENERATION OF PROCESSED DATA
+###############################################################################
+
 #Determine row and column to output
-test = []
 outputRow = uniqueonly(datalist[rowAttribute])
 outputCol = uniqueonly(datalist[colAttribute])
 
-#Applies filter
+#Applies filters and also checks for error handling
 if filter == colAttribute:
     if filterValue not in outputCol:
         if filterValue == 'None':
@@ -88,7 +118,8 @@ if filter == colAttribute:
 if filterValue not in outputCol and filterValue != 'None' and filter != 'all':
     print '<h2>Filtered column does not exist.</h2>'
     sys.exit()
-
+if outputRow == outputCol:
+    print '<h2>Having the same column and row is not recommended, but alright.</h2>'
 
 #Creates the aggregate count value in the form of a list
 total = []
@@ -99,18 +130,11 @@ for row in outputRow:
             if item[rowAttribute] == row and item[colAttribute] == col:
                 count += 1
         total.append(count)
-        
-# Color Function
-def color(x):
-    n = float(x)/float(max(total)) 
-    h = 120
-    s = 100
-    l = 65
-    a = n*1
-    color = 'hsla(%s, %s%%, %s%%, %s)' % (h, s, l, a)
-    return color
     
-#Python Output
+
+###############################################################################
+#DATA OUTPUT
+###############################################################################
 print '<table><tr><td></td>'
 
 for x in outputCol:
@@ -127,6 +151,5 @@ for row in outputRow:
         print '</td>'
     print '<tr>'
 
-    
 print '</tr>'
 print '</table></body></html>'
