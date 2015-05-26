@@ -866,6 +866,14 @@
             color: #555f66;
         }
 
+            .wrapper.style1 h2 {
+                color: #2b8cbe;
+            }
+
+            .wrapper.style1 p {
+                color: #666f77;
+            }
+
         .wrapper.style2 {
             background: #2a2a2b;
             color: #c5c7c8;

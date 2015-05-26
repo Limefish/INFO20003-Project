@@ -181,7 +181,10 @@ print '</tr><tr>'
 print '<td style="background-color: rgba(144, 144, 144, 0.075)"><b>Total</b></td>' 
 for column in range((len(outputCol)+1)):
     position = len(outputCol) + 1 - column
-    print '<td style="background-color: rgba(144, 144, 144, 0.075)"><b>%s</b></td>' % tableValues[-(position)]
+    if position == 1:
+        print '<td style="background-color: rgba(144, 144, 144, 0.075); text-align: right"><b>%s</b></td>' % tableValues[-(position)]
+    else:
+        print '<td style="background-color: rgba(144, 144, 144, 0.075)"><b>%s</b></td>' % tableValues[-(position)]
 print '</tr>'
 
 print '</table></body></html>'

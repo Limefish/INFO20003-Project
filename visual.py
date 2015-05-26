@@ -43,11 +43,20 @@ totalCount = defaultdict(int)
 #Bar Chart for Gender Count
 totalMale = totalFemale = total = 0
 
+#Sexual and Gender Minority
+totalHomo = totalBi = totalHetero = totalOthers = 0
+goodHomo = badHomo = neutralHomo = 0
+goodBi = badBi = neutralBi = 0
+goodHetero = badHetero = neutralHetero = 0
+homoCount =  defaultdict(int)
+heteroCount = defaultdict(int)
+biCount = defaultdict(int)
+
 for x in characters:
     totalCount[x['year']] += 1
     total += 1
 
-    #Generates count of
+    #Generates count of alignments by Gender
     if x['sex'] == 'Female Characters':
         femaleCount[x['year']] += 1
         totalFemale += 1
@@ -71,9 +80,37 @@ for x in characters:
         elif x['align'] == 'Reformed Criminals':
             reformedMale += 1
     
+    #Generates count of alignments by Sexual Orientation
     if x['gsm'] == 'Homosexual Characters':
+        homoCount[x['year']] += 1
+        totalHomo += 1
+        if x['align'] == 'Good Characters':
+            goodHomo += 1
+        elif x['align'] == 'Neutral Characters':
+            neutralHomo += 1
+        elif x['align'] == 'Bad Characters':
+            badHomo += 1           
+    elif x['gsm'] == 'N/A':
         #Assumes that those not labelled as a sexual minority by the dataset are straight
-        homoCount += 1
+        heteroCount[x['year']] += 1
+        totalHetero += 1
+        if x['align'] == 'Good Characters':
+            goodHetero += 1
+        elif x['align'] == 'Neutral Characters':
+            neutralHetero += 1
+        elif x['align'] == 'Bad Characters':
+            badHetero += 1           
+    elif x['gsm'] == 'Bisexual Characters':
+        biCount[x['year']] += 1
+        totalBi += 1
+        if x['align'] == 'Good Characters':
+            goodBi += 1
+        elif x['align'] == 'Neutral Characters':
+            neutralBi += 1
+        elif x['align'] == 'Bad Characters':
+            badBi += 1 
+    else:
+        totalOthers += 1
 
 
 
@@ -129,7 +166,62 @@ dataset['cumulativeTotal'] = cumulativeTotal
 ###############################################################################
 totalOthers = total - (totalMale + totalFemale)
 dataset['genderCount'] = {"totalMale": totalMale, "totalFemale": totalFemale, "totalOthers": totalOthers, "total": total}
+
         
+###############################################################################
+#Column Chart for Sexual Orientation
+###############################################################################
+homoRatios = {'good': round(float(100*goodHomo)/totalHomo, 2),
+              'neutral': round(float(100*neutralHomo)/totalHomo, 2),
+              'bad': round(float(100*badHomo)/totalHomo, 2)}
+
+biRatios = {'good': round(float(100*goodBi)/totalBi, 2),
+            'neutral': round(float(100*neutralBi)/totalBi, 2),
+            'bad': round(float(100*badBi)/totalBi, 2)}
+
+heteroRatios = {'good': round(float(100*goodHetero)/totalHetero, 2),
+              'neutral': round(float(100*neutralHetero)/totalHetero, 2),
+              'bad': round(float(100*badHetero)/totalHetero, 2)}
+
+dataset['orientationAlign'] = {"totalHomo": totalHomo, "totalHetero": totalHetero, "totalBi": totalBi, "totalOthers" : totalOthers,
+                               "homo": homoRatios, "bi": biRatios, "hetero": heteroRatios}
+
+"""
+dataset['orientationAlign'] = {"totalHomo": totalHomo, "totalHetero": totalHetero, "totalBi": totalBi, "totalOthers" : totalOthers,
+                               "goodHomo": goodHomo, "neutralHomo": neutralHomo, "badHomo": badHomo,
+                               "goodHetero": goodHetero, "neutralHetero": neutralHetero, "badHetero": badHetero,
+                               "goodBi": goodBi, "neutralBi": neutralBi, "badBi": badBi}
+"""
+
+###############################################################################
+#Column Chart for Sexual Orientation
+###############################################################################
+homoYear = []
+homoValue = []
+biYear = []
+biValue = []
+heteroYear = []
+heteroValue = []
+
+for year in maleCount.keys():
+    if year not in homoCount.keys():
+        homoCount[year] = 0
+    if year not in heteroCount.keys():
+        heteroCount[year] = 0
+    if year not in biCount.keys():
+        biCount[year] = 0
+
+for year in sorted(homoCount.keys()):
+    homoYear.append(year)
+    homoValue.append(homoCount[year])
+    heteroYear.append(year)
+    heteroValue.append(heteroCount[year])
+    biYear.append(year)
+    biValue.append(biCount[year])
+
+dataset['orientationYear'] = {'homoYear': homoYear, 'homoValue': homoValue,
+                              'heteroYear': heteroYear, 'heteroValue': heteroValue,
+                              'biYear': biYear, 'biValue': biValue}
 
 ###############################################################################
 #Scatterplot data 
