@@ -26,7 +26,7 @@ def uniqueonly(x):
             item = 'N/A'
         uniques.append(item)
     uniques = sorted(uniques)
-   
+
     try:
         #For cases when there is no empty cells within the data
         uniques = uniques + [uniques.pop(uniques.index('N/A'))]
@@ -37,18 +37,18 @@ def uniqueonly(x):
 #Used to colour the cells of the pivot table,
 #where colour varies with the cell's value
 def color(x):
-    n = float(x)/float(max(total))
-    if n <= 0.5: 
-        h = 17
-        s = 59
-        l = 94
+    n = float(x)/float(max(tableValues))
+    if n <= 0.5:
+        r = 239
+        g = 138
+        b = 98
         a = 1-(n*2)
     else:
-        h = 202
-        s = 50
-        l = 81
+        r = 103
+        g = 169
+        b = 207
         a = (n-0.5)*2
-    color = 'hsla(%s, %s%%, %s%%, %s)' % (h, s, l, a)
+    color = 'rgba(%s, %s, %s, %s)' % (r, g, b, a)
     return color
 
 
@@ -69,6 +69,7 @@ if 'filterValue' not in pivotValues:
 
 rowAttribute = pivotValues['row']
 colAttribute = pivotValues['column']
+value = pivotValues['value']
 filter = pivotValues['filter']
 filterValue = pivotValues['filterValue']
 
@@ -81,8 +82,10 @@ datalist = {title.strip().lower():[data.strip()]
 
 #A list, where each item will be a dictionary for each character
 characters = []
+totalCharacters = 0
 
 for row in reader:
+    totalCharacters += 1
     characters.append(row)
     for title, data in row.items():
         title = title.strip()
@@ -122,34 +125,63 @@ if outputRow == outputCol:
     print '<h2>Having the same column and row is not recommended, but alright.</h2>'
 
 #Creates the aggregate count value in the form of a list
-total = []
+tableValues = []
+percentValue = 0
+
 for row in outputRow:
     for col in outputCol:
         count = 0
         for item in characters:
             if item[rowAttribute] == row and item[colAttribute] == col:
                 count += 1
-        total.append(count)
+        tableValues.append(count)
+    #Calculates the sum of each row.
+    tableValues.append(sum(tableValues[-(len(outputCol)):]))
+
+#Calculates the sum of each column
+for column in range((len(outputCol)+1)):
+    tableValues.append(sum(tableValues[column::(len(outputCol)+1)]))
     
+
+if value == "percent":
+    #Returns values as percentages instead of aggreate count
+    i = 0
+    for item in tableValues:
+        percentValue = round(float(item)/totalCharacters * 100, 2)
+        tableValues[i] = percentValue
+        i += 1
+
 
 ###############################################################################
 #DATA OUTPUT
 ###############################################################################
+
 print '<table><tr><td></td>'
 
 for x in outputCol:
     print '<td>%s</td>' % x
+print '<td><b>Total</b></td>'    
     
 i = 0
 for row in outputRow:
     print '<tr>'
-    print '<td>%s</td>' % row
+    print '<td style="background-color: rgba(144, 144, 144, 0.075)">%s</td>' % row
     for col in outputCol:
-        print '<td style = "background-color:%s;color:black">' % color(total[i])
-        print total[i]
+        print '<td style = "background-color:%s;color:black">' % color(tableValues[i])
+        print tableValues[i]
         i += 1
         print '</td>'
+    #Prints Row Total
+    print '<td style="background-color: rgba(144, 144, 144, 0.075); text-align: right"><b>%s</b></td>' % tableValues[i]
+    i += 1
     print '<tr>'
 
+#Printing of Column Total
+print '</tr><tr>'
+print '<td style="background-color: rgba(144, 144, 144, 0.075)"><b>Total</b></td>' 
+for column in range((len(outputCol)+1)):
+    position = len(outputCol) + 1 - column
+    print '<td style="background-color: rgba(144, 144, 144, 0.075)"><b>%s</b></td>' % tableValues[-(position)]
 print '</tr>'
+
 print '</table></body></html>'
