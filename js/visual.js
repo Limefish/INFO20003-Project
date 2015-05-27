@@ -214,7 +214,7 @@ $(document).ajaxStop(function () {
 
     $('.sexualOrientation').highcharts({
         title: {
-            text: 'Gender Minorities by their First Year of Appearance',
+            text: 'Sexual Minorities by their First Year of Appearance',
             x: -20
         },
         xAxis: {
@@ -366,7 +366,7 @@ $(document).ajaxStop(function () {
         xAxis: {
             title: {
                 enabled: true,
-                text: 'Good Character Ratio (%)'
+                text: 'Good Character (%)'
             },
             startOnTick: true,
             endOnTick: true,
@@ -374,7 +374,7 @@ $(document).ajaxStop(function () {
         },
         yAxis: {
             title: {
-                text: 'Public Identity Ratio (%)'
+                text: 'Public Identity (%)'
             }
         },
         legend: {
