@@ -351,7 +351,7 @@ $(document).ajaxStop(function () {
         }]
     });
 
-    Highcharts.setOptions(Highcharts.theme);
+    ResetOptions();
     $('.scatterPlot').highcharts({
         chart: {
             type: 'scatter',
@@ -384,7 +384,7 @@ $(document).ajaxStop(function () {
             x: 100,
             y: 70,
             floating: true,
-            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF',
+            backgroundColor:'#EEEEEE',
             borderWidth: 1
         },
         plotOptions: {
@@ -508,4 +508,4 @@ $(document).ajaxStop(function () {
             ]
         }]
     });
-});
+});​
