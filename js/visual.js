@@ -180,7 +180,7 @@ $(document).ajaxStop(function () {
             x: -20
         },
         xAxis: {
-            categories: dataset.genderYear.homoYear,
+            categories: dataset.orientationYear.homoYear,
             tickInterval: 6
         },
         yAxis: {
@@ -197,6 +197,9 @@ $(document).ajaxStop(function () {
         },
         credits: {
             enabled: false
+        },
+        tooltip: {
+            shared: true
         },
         plotOptions: {
             line: {
@@ -237,10 +240,10 @@ $(document).ajaxStop(function () {
             }
         }, {
             name: 'Homosexual',
-            data: dataset.genderYear.homoValue
+            data: dataset.orientationYear.homoValue
         }, {
             name: 'Bisexual',
-            data: dataset.genderYear.biValue
+            data: dataset.orientationYear.biValue
         }]
     });
 
@@ -320,7 +323,7 @@ $(document).ajaxStop(function () {
             zoomType: 'xy'
         },
         title: {
-            text: 'Ratio of Public Identity Versus Ratio of Good Characters'
+            text: 'Ratio of Public Identity Versus Ratio of Good Characters by Year'
         },
         subtitle: {
             text: 'Comic Characters from 1935 to 2013'
@@ -332,7 +335,8 @@ $(document).ajaxStop(function () {
             },
             startOnTick: true,
             endOnTick: true,
-            showLastLabel: true
+            showLastLabel: true,
+            max: 1
         },
         yAxis: {
             title: {
@@ -368,8 +372,8 @@ $(document).ajaxStop(function () {
                     }
                 },
                 tooltip: {
-                    headerFormat: '<b>{series.name}</b><br>',
-                    pointFormat: '{point.x} %, {point.y} %'
+                    headerFormat: '<p style="display:none"></p>',
+                    pointFormat: '<b>{point.year}</b><br>{point.x:.2f}, {point.y:.2f}'
                 }
             }
         },
