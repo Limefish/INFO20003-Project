@@ -8,7 +8,7 @@ from collections import defaultdict
 ###############################################################################
 reader=csv.DictReader(open('./data/combined.csv',"rU"))
 
-
+#A dictionary, where each variable is a key
 datalist = {title.strip():[data.strip()]
             for title, data in reader.next().items()}
 
@@ -255,6 +255,7 @@ for year in publicCount:
         if year == year2:
             publicRatio[year] = publicCount[year]/totalCount[year]
             
+#Dictionaries for count and ratio of good characters for each year            
 goodCount = defaultdict(float)
 goodRatio = defaultdict(float)
 
@@ -286,4 +287,4 @@ dataset['scatterPlotData'] = scatterPlotData
 print 'Content-Type: application/json'
 print
 
-print json.dumps(dataset)
+print json.dumps(dataset)​
