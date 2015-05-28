@@ -237,6 +237,7 @@ dataset['orientationYear'] = {'homoYear': homoYear, 'homoValue': homoValue,
                               'heteroYear': heteroYear, 'heteroValue': heteroValue,
                               'biYear': biYear, 'biValue': biValue}
 
+
 ###############################################################################
 #Scatterplot data 
 ###############################################################################
@@ -275,11 +276,10 @@ list = []
 for year in publicRatio:
     for year2 in goodRatio:
         if year == year2:
-            scatterPlotData.append([goodRatio[year],publicRatio[year]])
+            scatterPlotData.append({'year':year, 'x':goodRatio[year], 'y':publicRatio[year]})
                 
 dataset['scatterPlotData'] = scatterPlotData
             
-
 
 ###############################################################################
 #Output
@@ -287,4 +287,4 @@ dataset['scatterPlotData'] = scatterPlotData
 print 'Content-Type: application/json'
 print
 
-print json.dumps(dataset)​
+print json.dumps(dataset)
