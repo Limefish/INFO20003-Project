@@ -126,6 +126,11 @@ dataset['alignPieData'] = {"goodFemale": goodFemale, "badFemale": badFemale,
 ###############################################################################
 #Stacked Chart
 ###############################################################################
+maleYear = []
+maleValue = []
+femaleYear = []
+femaleValue = []
+
 femaleCount.pop('N/A')
 maleCount.pop('N/A')
 totalCount.pop('N/A')
@@ -137,28 +142,34 @@ for year in femaleCount.keys():
     if year not in maleCount.keys():
         maleCount[year] = 0
 
-dataset['femaleCount'] = femaleCount
-dataset['maleCount'] = maleCount
-dataset['totalCount'] = totalCount
+for year in sorted(maleCount.keys()):
+    #Males and females should have the same number of years due to the for loops earlier
+    maleYear.append(year)
+    maleValue.append(float(maleCount[year])/totalCount[year])
+    femaleYear.append(year)
+    femaleValue.append(float(femaleCount[year])/totalCount[year])
 
 #Generates a cumulative total for each gender year-by-year
 cumulativeMale = [1]
 cumulativeFemale = [0] #There were 0 female characters in the first year
 cumulativeTotal = [1]
 i = 0
-for year in sorted(maleCount.keys()):
-    #Males and females should have the same number of years due to the for loops earlier
+for year in maleYear[1:]:
     cumulativeMale.append(cumulativeMale[i] + maleCount[year])
     cumulativeFemale.append(cumulativeFemale[i] + femaleCount[year])
-    
     #Don't want to sum cumulativeMale with cumulativeFemale to get the total amount of characters that
     #were given a valid year in the dataset. This is because genders include more than just males and females.
     cumulativeTotal.append(cumulativeTotal[i] + totalCount[year])
     i += 1
-    
-dataset['cumulativeMale'] = cumulativeMale
-dataset['cumulativeFemale'] = cumulativeFemale
-dataset['cumulativeTotal'] = cumulativeTotal
+
+for year in range(len(maleYear)):
+    cumulativeMale[year] = (float(cumulativeMale[year])/cumulativeTotal[year])
+    cumulativeFemale[year] = (float(cumulativeFemale[year])/cumulativeTotal[year])
+
+dataset['genderYear'] = {'maleYear': maleYear, 'maleValue': maleValue,
+                          'femaleYear': femaleYear, 'femaleValue': femaleValue,
+                          'cumulativeMale': cumulativeMale, 'cumulativeTotal': cumulativeTotal,
+                          'cumulativeFemale': cumulativeFemale}
 
 
 ###############################################################################
@@ -202,6 +213,9 @@ biYear = []
 biValue = []
 heteroYear = []
 heteroValue = []
+
+homoCount.pop('N/A')
+heteroCount.pop('N/A')
 
 for year in maleCount.keys():
     if year not in homoCount.keys():

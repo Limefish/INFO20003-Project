@@ -7,3 +7,5 @@ Add a dropdown for filter values, so user doesn't have to type the filter value 
 Support multiple filter values.
 
 Make the python scripts PEP8.
+
+Make pivot table gradient based off the highest value in the table rather than total

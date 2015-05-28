@@ -27,44 +27,6 @@ $(document).ready(function() {
 
 $(document).ajaxStop(function () {
 //Waits until the AJAX request is finished
-      
-    var femaleValues = [];
-    var maleValues = [];
-    var cumulativeFemales = [];
-    var cumulativeMales = [];
-    var femaleCount = {};
-    var maleCount = {};
-    var totalCount = {};
-
-    //Creates 'sorted' objects by Year (if required)
-    Object.keys(dataset.femaleCount)
-          .sort()
-          .forEach(function (year) {
-             femaleCount[year] = dataset.femaleCount[year];
-          });
-    Object.keys(dataset.maleCount)
-          .sort()
-          .forEach(function (year) {
-             maleCount[year] = dataset.maleCount[year];
-          });
-    Object.keys(dataset.totalCount)
-          .sort()
-          .forEach(function (year) {
-             totalCount[year] = dataset.totalCount[year];
-          });
-
-    //Makes sure that both males and females have the same amount of years
-    for (var year in femaleCount) {
-        femaleValues.push(femaleCount[year]/totalCount[year]);
-    }
-    for (var year in maleCount) {
-        maleValues.push(maleCount[year]/totalCount[year]);
-    }
-    for (var i = 0; i < femaleValues.length; i++) {
-        cumulativeMales.push(dataset.cumulativeMale[i]/dataset.cumulativeTotal[i]);
-        cumulativeFemales.push(dataset.cumulativeFemale[i]/dataset.cumulativeTotal[i]);
-    }
-
     //Generation of Charts
     $('.genderRatio').highcharts({
         chart: {
@@ -74,7 +36,7 @@ $(document).ajaxStop(function () {
             text: 'Gender Ratio of Comic Book Characters Introduced Each Year'
         },
         xAxis: {
-            categories: Object.keys(maleCount),
+            categories: dataset.genderYear.maleYear,
             tickmarkPlacement: 'on',
             title: {
                 enabled: false
@@ -131,14 +93,14 @@ $(document).ajaxStop(function () {
         },
         series: [{
             name: 'Males',
-            data: maleValues
+            data: dataset.genderYear.maleValue
         }, {
             name: 'Females',
-            data: femaleValues
+            data: dataset.genderYear.femaleValue
         }, {
             type: 'spline',
             name: 'Cumulative Males',
-            data: cumulativeMales,
+            data: dataset.genderYear.cumulativeMale,
             marker: {
                 enabled: false,
                 lineWidth: 2,
@@ -148,7 +110,7 @@ $(document).ajaxStop(function () {
         }, {
             type: 'spline',
             name: 'Cumulative Females',
-            data: cumulativeFemales,
+            data: dataset.genderYear.cumulativeFemale,
             marker: {
                 enabled: false,
                 lineWidth: 2,
@@ -218,7 +180,7 @@ $(document).ajaxStop(function () {
             x: -20
         },
         xAxis: {
-            categories: dataset.orientationYear.homoYear,
+            categories: dataset.genderYear.homoYear,
             tickInterval: 6
         },
         yAxis: {
@@ -275,10 +237,10 @@ $(document).ajaxStop(function () {
             }
         }, {
             name: 'Homosexual',
-            data: dataset.orientationYear.homoValue
+            data: dataset.genderYear.homoValue
         }, {
             name: 'Bisexual',
-            data: dataset.orientationYear.biValue
+            data: dataset.genderYear.biValue
         }]
     });
 
