@@ -1,0 +1,14 @@
+PIVOT TABLE
+
+Binning "appearances" for the Pivot Table so that it can be used as a row or column attribute.
+
+Make the python scripts PEP8.
+
+Find out why the selected filter values clear themselves everytime a pivot table is generated.
+
+
+VISUALISATIONS
+
+Explore the distribution of gender within various sexual orientations
+
+Gather more datasets on Australian demographics and do further comparisons with it.
