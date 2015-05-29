@@ -115,7 +115,7 @@ for x in characters:
 
 
 ###############################################################################
-#Pie Chart 1 and 2
+#Gender Alignment Pie Charts
 ###############################################################################
 dataset['alignPieData'] = {"goodFemale": goodFemale, "badFemale": badFemale,
                            "neutralFemale": neutralFemale, "reformedFemale": reformedFemale,
@@ -124,7 +124,7 @@ dataset['alignPieData'] = {"goodFemale": goodFemale, "badFemale": badFemale,
 
 
 ###############################################################################
-#Stacked Chart
+#Gender Ratio Stacked Chart
 ###############################################################################
 maleYear = []
 maleValue = []
@@ -180,7 +180,7 @@ dataset['genderCount'] = {"totalMale": totalMale, "totalFemale": totalFemale, "t
 
         
 ###############################################################################
-#Column Chart for Sexual Orientation
+#Column Chart for Sexual Orientation and Alignment
 ###############################################################################
 homoRatios = {'good': round(float(100*goodHomo)/totalHomo, 2),
               'neutral': round(float(100*neutralHomo)/totalHomo, 2),
@@ -205,7 +205,7 @@ dataset['orientationAlign'] = {"totalHomo": totalHomo, "totalHetero": totalHeter
 """
 
 ###############################################################################
-#Column Chart for Sexual Orientation
+#Line Chart for Seuxal Orientaiton by Year
 ###############################################################################
 homoYear = []
 homoValue = []
@@ -239,7 +239,7 @@ dataset['orientationYear'] = {'homoYear': homoYear, 'homoValue': homoValue,
 
 
 ###############################################################################
-#Scatterplot data 
+#Scatterplot Data for Alignment versus Identity
 ###############################################################################
 
 #Dictionaries for count and ratio of public identities for each year

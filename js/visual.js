@@ -286,7 +286,7 @@ $(document).ajaxStop(function () {
         tooltip: {
             formatter: function () {
                 return '<b>' + this.x + '</b><br/>' +
-                    this.series.name + ': ' + this.y + '<br/>' +
+                    this.series.name + ': ' + this.y + '%<br/>' +
                     'Total: ' + this.point.stackTotal + '%';
             }
         },
@@ -352,6 +352,9 @@ $(document).ajaxStop(function () {
             floating: true,
             backgroundColor:'#EEEEEE',
             borderWidth: 1
+        },
+        credits: {
+            enabled: false
         },
         plotOptions: {
             scatter: {
@@ -474,4 +477,4 @@ $(document).ajaxStop(function () {
             ]
         }]
     });
-});​
+});

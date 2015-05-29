@@ -1153,7 +1153,7 @@
         border-collapse: collapse;
     }
 
-    #table {
+    #actualTable {
         overflow: auto;
     }
 
@@ -1175,7 +1175,15 @@
         background: linear-gradient(to right, rgba(239,138,98,1) 0%, rgba(255,255,255,1) 50%, rgba(103,169,207,1) 100%);
     }
 
+    .filterSelect {
+        width: 20em;
+        height: 6em;
+    }
 
+    .TokenSearch > input {
+        position: absolute
+    }
+        
 /* Visualisations */
     
     .pie1, .pie2 {

@@ -1,49 +1,52 @@
 function submit() {
+    //Submit button generates a pivot table
     var tablehtml = '';
     var row = $('#row option:selected').val();
     var column = $('#column option:selected').val();
     var value = $('#value option:selected').val();
-    var filter = $('#filter option:selected').val();
-    var filterValue = $('#filterValue').val();
+    var filterValues = $('#tokenize').val();
     $.ajax({
         type: "POST",
-        data: {row: row, column: column, value: value, filter: filter, filterValue: filterValue},
+        data: {row: row, column: column, value: value, filterValues: filterValues, wantFilter: "False"},
         dataType: 'html',
         url: 'pivot.py',
         success: function(data) {
           $('#table').html(data);
-          $('#gradient').html('');
-          $('#gradient').append('<h3>Colour Legend</h3>');
-          $('#gradient').append('<table><tr><td id="gradientCell"></td></tr></table>');
-          $('#gradient').append('<p style="margin-top: -1.5em">Min <span style="float: right">Max</p></body></html>');
         }
     });
 
     return false;
 }
 
-$(document).ready(function() {
-    if ($('#filter option:selected').val() == "all") {
-        $("#filterValue").css({
-            'opacity': '0.3'
-        });
-    } else {
-        $("#filterValue").css({
-            'opacity': '1.0'
-        });
-    };
-    $('#generate').click(submit);
-    $("#filter").change(function() {
-        if($('#filter option:selected').val() == "all") {
-            $("#filterValue").prop("disabled", true)
-            $("#filterValue").css({
-                'opacity': '0.3'
-            });
-        } else {
-            $("#filterValue").prop("disabled", false)
-            $("#filterValue").css({
-                'opacity': '1.0'
-            });
-        };
+function filterChange() {
+    //Changes the filter options depending on which column data is selected
+    var column = $('#column option:selected').val();
+    var value = $('#value option:selected').val();
+    var filter = $('#filter option:selected').val();
+    var row = $('#row option:selected').val();
+    var filterValues = $('#tokenize').val();
+    list = '';
+    list += '<select id="tokenize" multiple="multiple" class="filterSelect">'
+    $.ajax({
+        type: "GET",
+        data: {row: row, column: column, value: value, filterValues: filterValues, wantFilter: "True"},
+        dataType: 'json',
+        url: 'pivot.py',
+        success: function(columns) {
+            for (var j = 0; j < columns.length; j++){
+                list += "<option value='" +columns[j] + "'>" +columns[j]+ "</option>";
+            }
+        }
     });
+    $(document).ajaxStop(function () {
+        list += '</select>';
+        $('.filtering').html(list);
+        $('#tokenize').tokenize({displayDropdownOnFocus:true, nbDropdownElements: 30});
+    });
+}
+
+$(document).ready(function() {
+    filterChange();
+    $('#generate').click(submit);
+    $("#column").change(filterChange);
 });
